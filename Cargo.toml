@@ -12,7 +12,7 @@ documentation = "https://docs.rs/orion"
 license = "MIT"
 exclude = [
     ".gitignore",
-    ".travis.yml",
+    ".vscode/",
     "tests/*"
 ]
 
