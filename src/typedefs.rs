@@ -611,6 +611,7 @@ macro_rules! construct_tag {
         }
 
         impl_omitted_debug_trait!($name);
+        impl_drop_trait!($name);
         impl_ct_partialeq_trait!($name, unprotected_as_bytes);
 
         impl $name {
