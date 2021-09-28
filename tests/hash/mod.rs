@@ -5,13 +5,13 @@ pub mod sha384_nist_cavp;
 pub mod sha512_nist_cavp;
 
 use crate::TestCaseReader;
-use orion::hazardous::hash::{self, sha2::sha256, sha2::sha384, sha2::sha512};
+use orion::hazardous::hash::{blake2, sha2::sha256, sha2::sha384, sha2::sha512};
 use orion::hazardous::mac;
 
 fn blake2b_test_runner(input: &[u8], key: &[u8], output: &[u8]) {
     // Only make SecretKey if test case key value is not empty.
     if key.is_empty() {
-        let mut state = hash::blake2b::Blake2b::new(output.len()).unwrap();
+        let mut state = blake2::blake2b::Blake2b::new(output.len()).unwrap();
         state.update(input).unwrap();
         let digest = state.finalize().unwrap();
         assert_eq!(digest.len(), output.len());
@@ -33,8 +33,8 @@ fn sha512_test_runner(data: &[u8], output: &[u8]) {
 
     let digest_one_shot = sha512::Sha512::digest(data).unwrap();
 
-    assert!(digest.as_ref() == digest_one_shot.as_ref());
-    assert!(digest.as_ref() == output);
+    assert_eq!(digest.as_ref(), digest_one_shot.as_ref());
+    assert_eq!(digest.as_ref(), output);
 }
 
 fn sha256_test_runner(data: &[u8], output: &[u8]) {
@@ -44,8 +44,8 @@ fn sha256_test_runner(data: &[u8], output: &[u8]) {
 
     let digest_one_shot = sha256::Sha256::digest(data).unwrap();
 
-    assert!(digest.as_ref() == digest_one_shot.as_ref());
-    assert!(digest.as_ref() == output);
+    assert_eq!(digest.as_ref(), digest_one_shot.as_ref());
+    assert_eq!(digest.as_ref(), output);
 }
 
 fn sha384_test_runner(data: &[u8], output: &[u8]) {
@@ -55,8 +55,8 @@ fn sha384_test_runner(data: &[u8], output: &[u8]) {
 
     let digest_one_shot = sha384::Sha384::digest(data).unwrap();
 
-    assert!(digest.as_ref() == digest_one_shot.as_ref());
-    assert!(digest.as_ref() == output);
+    assert_eq!(digest.as_ref(), digest_one_shot.as_ref());
+    assert_eq!(digest.as_ref(), output);
 }
 
 /// NISTs SHA256/384/512 Long/Short share the same format,
